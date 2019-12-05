@@ -1,0 +1,105 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 03/12/2019 00:34:11
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : tableau de multiplication 
+00000000                             3  * Written by : link
+00000000                             4  * Date       : 2/12/2019
+00000000                             5  * Description: une  banale table de multiplication pour tester 
+00000000                             6  *               les boucles et la multiplication et aussi l'affichage
+00000000                             7  *-----------------------------------------------------------
+00001000                             8      ORG    $1000
+00001000                             9  START:                  ; first instruction of program
+00001000                            10  
+00001000                            11  * Put program code here
+00001000                            12  
+00001000  303C 000E                 13      move #14,d0
+00001004  43F9 00001072             14      lea titre,a1
+0000100A  4E4F                      15      trap #15
+0000100C                            16      
+0000100C  303C 0012                 17      move #18,d0
+00001010  43F9 000010BE             18      lea demande,a1
+00001016  4E4F                      19      trap #15
+00001018                            20      
+00001018  3401                      21      move d1,d2
+0000101A  363C 0000                 22      move #0,d3
+0000101E                            23      
+0000101E                            24  tableau:
+0000101E                            25      
+0000101E  B67C 0009                 26      cmp #9,d3 ; condition de la boucle
+00001022  6200 0044                 27      bhi fin  ; condition de sortie 
+00001026                            28      
+00001026  5243                      29      add #1,d3 ; incrementation
+00001028                            30      
+00001028  3202                      31      move d2,d1 ; On cherche a afficher notre nombre a multiplier
+0000102A  303C 0003                 32      move #3,d0  ; On donne les instructions pour l'affichage du nombre en question
+0000102E  4E4F                      33      trap #15
+00001030                            34      
+00001030  43F9 000010F3             35      lea fois,a1 ; on affiche le signe de la multiplication
+00001036  303C 000E                 36      move #14,d0 ; instruction pour l'affichage
+0000103A  4E4F                      37      trap #15
+0000103C                            38      
+0000103C  3203                      39      move d3,d1 ; On cherche a afficher les nombres qui doient multiplier le nombre entre
+0000103E  303C 0003                 40      move #3,d0 ; Instruction pour afficher
+00001042  4E4F                      41      trap #15
+00001044                            42      
+00001044                            43      ;Nous allons faire la multiplication deh maintenant
+00001044  3203                      44      move d3,d1
+00001046  C3C2                      45      muls d2,d1
+00001048                            46      ; Noter bien que pour la multiplication il faut le registre de donne d1
+00001048                            47      ; pour ma part j'ai essaye muls d2,d3 sant resultat donc a preuve du contraire
+00001048                            48      ; utiliser celui ci
+00001048                            49      
+00001048                            50      
+00001048  43F9 000010F7             51      lea egale,a1 ; Nous affichons ici le signe egale
+0000104E  303C 000E                 52      move #14,d0  ; Instruction pour l'affichage
+00001052  4E4F                      53      trap #15
+00001054                            54      
+00001054  303C 0003                 55      move #3,d0  ; on affiche le contenue de D1 car pour l'affichage d'un nombre 
+00001058  4E4F                      56      trap #15    ; il faut toujours passe par D1
+0000105A                            57      
+0000105A                            58      
+0000105A  303C 000E                 59      move #14,d0 ;Instruction( les trois lignes ) pour retour a la ligne a chaque fois
+0000105E  43F9 000010FB             60      lea ligne,a1 ;
+00001064  4E4F                      61      trap #15     ;
+00001066                            62      
+00001066  60B6                      63      bra tableau  ; Ceci est un branchement inconditionnel car oui il en existe d'autre qui sont conditionnel
+00001068                            64                   ; pour pourvoir avoir une boucle
+00001068                            65  fin  ;sous function pour mettre fin au programme
+00001068  303C 0009                 66      move #9,d0  
+0000106C  4E4F                      67      trap #15
+0000106E                            68     
+0000106E                            69  
+0000106E  FFFF FFFF                 70      SIMHALT             ; halt simulator
+00001072                            71  
+00001072                            72  * Put variables and constants here
+00001072                            73  
+00001072                            74  ;declaration de variable que j'ai utiliser poour les affichages
+00001072= 3D 3D 3D 3D 3D 3D ...     75  titre dc.b '========= Nous sommes au niveaau de la table de multiplication ==========',$a,$d,0
+000010BE= 20 56 6F 75 73 20 ...     76  demande dc.b ' Vous voulez quelle table ? : ',0
+000010DD                            77  
+000010DD= 20 56 6F 69 63 69 ...     78  affiche dc.b ' Voici le resultat ',$a,$d,0
+000010F3                            79  
+000010F3= 20 78 20 00               80  fois dc.b ' x ',0
+000010F7= 20 3D 20 00               81  egale dc.b ' = ',0
+000010FB= 0A 0D 00                  82  ligne dc.b '',$a,$d,0
+000010FE                            83  
+000010FE                            84      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+AFFICHE             10DD
+DEMANDE             10BE
+EGALE               10F7
+FIN                 1068
+FOIS                10F3
+LIGNE               10FB
+START               1000
+TABLEAU             101E
+TITRE               1072

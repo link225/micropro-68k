@@ -1,0 +1,130 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 02/12/2019 20:50:54
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : remplissage de tableau et affichage et sommes des elements du tableau
+00000000                             3  * Written by : link
+00000000                             4  * Date       : today
+00000000                             5  * Description: je demande un nombre a l utilissateur et en fonction de ce nombre nous
+00000000                             6  *
+00000000                             7  *remplirons un tableau de longueur le nombre demander et afficher les elements
+00000000                             8  * entrer dans l'ordre entrer
+00000000                             9  *-----------------------------------------------------------
+00001000                            10      ORG    $1000
+00001000                            11  START:                  ; first instruction of program
+00001000                            12  
+00001000  43F9 0000115E             13      lea titre,a1
+00001006  303C 000E                 14      move #14,d0
+0000100A  4E4F                      15      trap #15
+0000100C                            16      
+0000100C  43F9 0000118B             17      lea demande,a1
+00001012  303C 0012                 18      move #18,d0
+00001016  4E4F                      19      trap #15
+00001018                            20      
+00001018  3601                      21      move d1,d3
+0000101A  6100 0052                 22      bsr init
+0000101E                            23      
+0000101E                            24      
+0000101E                            25  remplir:
+0000101E  B642                      26      cmp d2,d3
+00001020  6700 005C                 27      beq fin
+00001024                            28      
+00001024  43F9 000011B5             29      lea nombre,a1
+0000102A  303C 0012                 30      move #18,d0
+0000102E  4E4F                      31      trap #15
+00001030                            32      
+00001030  5242                      33      add #1,d2
+00001032  34C1                      34      move d1,(a2)+
+00001034                            35      
+00001034  60E8                      36      bra remplir
+00001036                            37      
+00001036                            38      
+00001036                            39      
+00001036                            40  affichage:
+00001036  B642                      41      cmp d2,d3
+00001038  6700 001C                 42      beq end
+0000103C                            43      
+0000103C  5242                      44      add #1,d2
+0000103E  321A                      45      move (a2)+,d1
+00001040                            46      
+00001040  D841                      47      add d1,d4
+00001042                            48      
+00001042  303C 0003                 49      move #3,d0
+00001046  4E4F                      50      trap #15
+00001048                            51      
+00001048  303C 000E                 52      move #14,d0
+0000104C  43F9 000011F5             53      lea ligne,a1
+00001052  4E4F                      54      trap #15
+00001054                            55      
+00001054  60E0                      56      bra affichage
+00001056                            57      
+00001056                            58  
+00001056                            59      
+00001056                            60  * Put program code here
+00001056                            61  
+00001056                            62  end    
+00001056  303C 000E                 63      move #14,d0
+0000105A  43F9 000011CD             64      lea somme,a1
+00001060  4E4F                      65      trap #15
+00001062                            66      
+00001062  3204                      67      move d4,d1
+00001064  303C 0003                 68      move #3,d0
+00001068  4E4F                      69      trap #15
+0000106A                            70      
+0000106A  FFFF FFFF                 71      SIMHALT             ; halt simulator
+0000106E                            72  
+0000106E                            73  init
+0000106E  45F9 00001096             74      lea table,a2
+00001074  343C 0000                 75      move #0,d2
+00001078  383C 0000                 76      move #0,d4
+0000107C  60A0                      77      bra remplir
+0000107E                            78  
+0000107E                            79  fin 
+0000107E  43F9 000011F8             80      lea fini,a1
+00001084  303C 000E                 81      move #14,d0
+00001088  4E4F                      82      trap #15
+0000108A                            83      
+0000108A  45F9 00001096             84      lea table,a2
+00001090  343C 0000                 85      move #0,d2
+00001094                            86     
+00001094  60A0                      87      bra affichage
+00001096                            88  
+00001096                            89  * Put variables and constants here
+00001096                            90  
+00001096                            91  table ds.w 100
+0000115E                            92  
+0000115E= 3D 3D 3D 3D 3D 3D ...     93  titre dc.b '========== Tableau et affichage ==========',$a,$d,0
+0000118B                            94  
+0000118B= 43 6F 6D 62 69 65 ...     95  demande dc.b 'Combien de nombre voulez vous entrer ? : ',0
+000011B5= 45 6E 74 72 65 72 ...     96  nombre dc.b 'Entrer un nombre svp : ',0
+000011CD                            97  
+000011CD= 4C 61 20 73 6F 6D ...     98  somme dc.b 'La somme des elements du tableax est : ',0
+000011F5                            99  
+000011F5= 0A 0D 00                 100  ligne dc.b '',$a,$d,0
+000011F8                           101  
+000011F8= 20 56 6F 75 73 20 ...    102  fini dc.b ' Vous avez fini mantenant voici vos entrer ',$a,$d,0
+00001226                           103   
+00001226                           104  
+00001226                           105      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+AFFICHAGE           1036
+DEMANDE             118B
+END                 1056
+FIN                 107E
+FINI                11F8
+INIT                106E
+LIGNE               11F5
+NOMBRE              11B5
+REMPLIR             101E
+SOMME               11CD
+START               1000
+TABLE               1096
+TITRE               115E
