@@ -34,7 +34,7 @@ remplir:
     
     move d1,(a2)+
     
-    bra remplir
+    bra remplir ; On fait un branchement sur la sous fonction remplir pour effectuer une boucle
     
 
     SIMHALT             ; halt simulator
