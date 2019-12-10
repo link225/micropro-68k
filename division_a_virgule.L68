@@ -1,55 +1,73 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 10/12/2019 13:36:03
+Created On: 10/12/2019 14:23:45
 
 00000000                             1  *-----------------------------------------------------------
-00000000                             2  * Title      :
-00000000                             3  * Written by :
-00000000                             4  * Date       :
-00000000                             5  * Description:
-00000000                             6  *-----------------------------------------------------------
-00001000                             7      ORG    $1000
-00001000                             8  START:                  ; first instruction of program
-00001000                             9  
-00001000  343C 000B                 10      move #11,d2
-00001004  85FC 0002                 11      divs #2,d2
-00001008                            12      
-00001008  3202                      13      move d2,d1
-0000100A                            14      
-0000100A  43F9 00001032             15      lea result,a1
-00001010  303C 0011                 16      move #17,d0
-00001014  4E4F                      17      trap #15
-00001016                            18      
-00001016                            19      
-00001016  4842                      20      swap d2
-00001018                            21      
-00001018  C5FC 000A                 22      muls #10,d2
-0000101C                            23      
-0000101C  85FC 0002                 24      divs #2,d2
-00001020                            25      
-00001020  3202                      26      move d2,d1
-00001022                            27      
-00001022  43F9 00001045             28      lea reste,a1
-00001028  303C 0011                 29      move #17,d0
-0000102C  4E4F                      30      trap #15
-0000102E                            31      
-0000102E                            32  
-0000102E                            33      
-0000102E                            34      
-0000102E                            35      
-0000102E                            36  
-0000102E  FFFF FFFF                 37      SIMHALT             ; halt simulator
-00001032                            38  
-00001032                            39  * Put variables and constants here\
-00001032                            40  
-00001032                            41  
-00001032= 6C 65 20 72 65 73 ...     42  result dc.b 'le resultat est : ',0
-00001045                            43  
-00001045= 2C 00                     44  reste dc.b ',',0
-00001047                            45  
-00001047                            46  
-00001047                            47  
-00001047                            48      END    START        ; last line of source
+00000000                             2  * Title      : la division des nombres avec un chiffre apres la virgule
+00000000                             3  * Written by : li_nk
+00000000                             4  * Date       : 10/12/2019
+00000000                             5  * Description: je fais la divion d'un nombre et affiche un nombre
+00000000                             6  *               apres la virgule.
+00000000                             7  *-----------------------------------------------------------
+00001000                             8      ORG    $1000
+00001000                             9  START:                  ; first instruction of program
+00001000                            10      
+00001000                            11      * Ce bloc nous permet de faire l'affichage du titre jusqu'a trap #15
+00001000  303C 000E                 12      move #14,d0    
+00001004  43F9 0000105B             13      lea titre,a1
+0000100A  4E4F                      14      trap #15
+0000100C                            15      
+0000100C                            16      * Ce bloc de trois ligne permet d'afficher et de demander un nombre a l'utilisateur soit
+0000100C                            17      * move #14,d0 and move #4,d0 = move #18,d0
+0000100C  43F9 00001084             18      lea nombre,a1
+00001012  303C 0012                 19      move #18,d0
+00001016  4E4F                      20      trap #15
+00001018                            21  
+00001018                            22      ; notre entrer est stocker dans d2
+00001018  3401                      23      move d1,d2
+0000101A                            24      
+0000101A                            25      ;division signer 
+0000101A  85FC 0002                 26      divs #2,d2
+0000101E                            27      
+0000101E                            28      ;on met dans le contenue de d2 dans d1 pour affichage 
+0000101E  3202                      29      move d2,d1
+00001020                            30      
+00001020                            31      ; ce bloque nous permet de faire un affichage de texte et de nombre en meme temps avec move #17,d0
+00001020  43F9 00001048             32      lea result,a1
+00001026  303C 0011                 33      move #17,d0
+0000102A  4E4F                      34      trap #15
+0000102C                            35      
+0000102C                            36      ; cela nous permet d'inverser le contenue de d2 sous 10002 devient 20001
+0000102C  4842                      37      swap d2
+0000102E                            38      
+0000102E                            39      ; on multiplie le reste de la division par 10
+0000102E  C5FC 000A                 40      muls #10,d2
+00001032                            41      
+00001032                            42      ; on 
+00001032  85FC 0002                 43      divs #2,d2
+00001036                            44      
+00001036  3202                      45      move d2,d1
+00001038                            46      
+00001038  43F9 000010B0             47      lea virgule,a1
+0000103E  303C 0011                 48      move #17,d0
+00001042  4E4F                      49      trap #15
+00001044                            50      
+00001044                            51      
+00001044                            52  
+00001044  FFFF FFFF                 53      SIMHALT             ; halt simulator
+00001048                            54  
+00001048                            55  * Put variables and constants here\
+00001048                            56  
+00001048                            57  
+00001048= 6C 65 20 72 65 73 ...     58  result dc.b 'le resultat est : ',0
+0000105B                            59  
+0000105B= 3D 3D 3D 3D 3D 3D ...     60  titre dc.b '========= Nous divisons ici ==========',$a,$d,0
+00001084                            61  
+00001084= 51 75 65 6C 20 6E ...     62  nombre dc.b 'Quel nombre voulez vous diviser par deux : ',0 ; vous etes libre de choisir n'import quel nombre moi c'est deux
+000010B0                            63  
+000010B0= 2E 00                     64  virgule dc.b '.',0
+000010B2                            65  
+000010B2                            66      END    START        ; last line of source
 
 No errors detected
 No warnings generated
@@ -58,6 +76,8 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-RESTE               1045
-RESULT              1032
+NOMBRE              1084
+RESULT              1048
 START               1000
+TITRE               105B
+VIRGULE             10B0
