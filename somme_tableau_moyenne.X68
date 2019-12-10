@@ -3,6 +3,7 @@
 * Written by : link
 * Date       : 10/12/2019
 * Description: Je remplis un tableau et je vais la somme des elements du tableau et la moyenne de ces elements
+*               NB: il est tout de meme possible de faire cet exercice sans un tableau 
 *-----------------------------------------------------------
     ORG    $1000
 START:                  ; first instruction of program
