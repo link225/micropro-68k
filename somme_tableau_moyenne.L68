@@ -1,0 +1,161 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 10/12/2019 17:02:33
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : somme et moyenne des elements d'un tableau
+00000000                             3  * Written by : link
+00000000                             4  * Date       : 10/12/2019
+00000000                             5  * Description: Je remplis un tableau et je vais la somme des elements du tableau et la moyenne de ces elements
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000  43F9 0000117E             10      lea titre,a1
+00001006  303C 000E                 11      move #14,d0
+0000100A  4E4F                      12      trap #15
+0000100C                            13      
+0000100C  43F9 000011C1             14      lea nbre,a1
+00001012  303C 0012                 15      move #18,d0
+00001016  4E4F                      16      trap #15
+00001018                            17      
+00001018  3601                      18      move d1,d3
+0000101A  383C 0000                 19      move #0,d4
+0000101E                            20      
+0000101E  6100 000E                 21      bsr init
+00001022                            22      
+00001022  6100 0016                 23      bsr remplir
+00001026                            24      
+00001026                            25     ; bsr afficher
+00001026                            26     
+00001026                            27     
+00001026  6100 0048                 28     bsr fini
+0000102A                            29  
+0000102A                            30  * Put program code here
+0000102A                            31  
+0000102A  FFFF FFFF                 32      SIMHALT             ; halt simulator
+0000102E                            33  init
+0000102E                            34  
+0000102E  45F9 000010B6             35      lea tableau,a2
+00001034                            36      
+00001034                            37      
+00001034                            38      
+00001034  343C 0001                 39      move #1,d2
+00001038  4E75                      40      rts
+0000103A                            41      
+0000103A                            42  remplir 
+0000103A  B642                      43      cmp d2,d3
+0000103C                            44      
+0000103C  6500 0030                 45      blo fin
+00001040                            46      
+00001040  5242                      47      add #1,d2
+00001042                            48      
+00001042  43F9 000011E0             49      lea entrer,a1
+00001048  303C 0012                 50      move #18,d0
+0000104C  4E4F                      51      trap #15
+0000104E                            52      
+0000104E  D841                      53      add d1,d4
+00001050                            54      
+00001050  34C1                      55      move d1,(a2)+
+00001052                            56      
+00001052  60E6                      57      bra remplir
+00001054                            58      
+00001054                            59  afficher
+00001054  B642                      60      cmp d2,d3
+00001056                            61      
+00001056  6500 0018                 62      blo fini
+0000105A                            63      
+0000105A  5242                      64      add #1,d2
+0000105C                            65      
+0000105C  321A                      66      move (a2)+,d1
+0000105E                            67      
+0000105E  D841                      68      add d1,d4
+00001060                            69   
+00001060  43F9 00001224             70      lea affiche,a1
+00001066  303C 0011                 71      move #17,d0
+0000106A  4E4F                      72      trap #15
+0000106C                            73      
+0000106C  60E6                      74      bra afficher
+0000106E                            75      
+0000106E                            76      
+0000106E                            77  fin 
+0000106E  60BE                      78      bra init
+00001070                            79      
+00001070                            80  fini
+00001070                            81      ;afficher la somme
+00001070  3204                      82      move d4,d1
+00001072                            83      
+00001072  43F9 000011F8             84      lea somme,a1
+00001078  303C 0011                 85      move #17,d0
+0000107C  4E4F                      86      trap #15
+0000107E                            87      
+0000107E                            88      ;afficher la division 
+0000107E                            89          
+0000107E  88C3                      90      divu d3,d4
+00001080  3204                      91      move d4,d1
+00001082                            92      
+00001082  43F9 00001227             93      lea division,a1
+00001088  303C 0011                 94      move #17,d0
+0000108C  4E4F                      95      trap #15
+0000108E                            96      
+0000108E  4844                      97      swap d4
+00001090                            98      
+00001090  C8FC 000A                 99      mulu #10,d4
+00001094                           100      
+00001094  88C3                     101      divu d3,d4
+00001096                           102      
+00001096  3204                     103      move d4,d1
+00001098                           104      
+00001098  43F9 00001222            105      lea virgule,a1
+0000109E  303C 0011                106      move #17,d0
+000010A2  4E4F                     107      trap #15
+000010A4                           108      
+000010A4  43F9 00001247            109      lea coef,a1
+000010AA  303C 000E                110      move #14,d0
+000010AE  4E4F                     111      trap #15
+000010B0                           112      
+000010B0  4E75                     113      rts
+000010B2                           114      
+000010B2  FFFF FFFF                115      SIMHALT
+000010B6                           116      
+000010B6                           117  * Put variables and constants here
+000010B6                           118  
+000010B6                           119  tableau ds.w 100
+0000117E= 3D 3D 3D 3D 3D 3D ...    120  titre dc.b '========== somme et moyenne des elements d un tableau ==========',$a,$d,0
+000011C1                           121  
+000011C1= 20 43 6F 6D 62 69 ...    122  nbre dc.b ' Combien de notes avez vous : ',0
+000011E0                           123  
+000011E0= 4E 6F 74 65 20 70 ...    124  entrer dc.b 'Note please (sur 20) : ',0
+000011F8                           125  
+000011F8= 0A 0D 4C 61 20 73 ...    126  somme dc.b $a,$d,'La somme des elements du tableau est : ',0
+00001222                           127  
+00001222= 2C 00                    128  virgule dc.b ',',0
+00001224                           129  
+00001224= 0A 0D 00                 130  affiche dc.b '',$a,$d,0
+00001227= 0A 0D 4C 61 20 6E ...    131  division dc.b $a,$d,'La noyenne est la suivante : ',0
+00001247= 2F 32 30 0A 0D 00        132  coef dc.b '/20',$a,$d,0
+0000124D                           133  
+0000124D                           134      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+AFFICHE             1224
+AFFICHER            1054
+COEF                1247
+DIVISION            1227
+ENTRER              11E0
+FIN                 106E
+FINI                1070
+INIT                102E
+NBRE                11C1
+REMPLIR             103A
+SOMME               11F8
+START               1000
+TABLEAU             10B6
+TITRE               117E
+VIRGULE             1222
