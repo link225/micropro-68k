@@ -6,3 +6,6 @@ Quelque exercie et quelque algo resolus
 + division 
 + soustraction
 + division avec virgule
++ tableau 
++ boucle
++ sous instruction
