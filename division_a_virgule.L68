@@ -1,0 +1,63 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 10/12/2019 13:36:03
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000  343C 000B                 10      move #11,d2
+00001004  85FC 0002                 11      divs #2,d2
+00001008                            12      
+00001008  3202                      13      move d2,d1
+0000100A                            14      
+0000100A  43F9 00001032             15      lea result,a1
+00001010  303C 0011                 16      move #17,d0
+00001014  4E4F                      17      trap #15
+00001016                            18      
+00001016                            19      
+00001016  4842                      20      swap d2
+00001018                            21      
+00001018  C5FC 000A                 22      muls #10,d2
+0000101C                            23      
+0000101C  85FC 0002                 24      divs #2,d2
+00001020                            25      
+00001020  3202                      26      move d2,d1
+00001022                            27      
+00001022  43F9 00001045             28      lea reste,a1
+00001028  303C 0011                 29      move #17,d0
+0000102C  4E4F                      30      trap #15
+0000102E                            31      
+0000102E                            32  
+0000102E                            33      
+0000102E                            34      
+0000102E                            35      
+0000102E                            36  
+0000102E  FFFF FFFF                 37      SIMHALT             ; halt simulator
+00001032                            38  
+00001032                            39  * Put variables and constants here\
+00001032                            40  
+00001032                            41  
+00001032= 6C 65 20 72 65 73 ...     42  result dc.b 'le resultat est : ',0
+00001045                            43  
+00001045= 2C 00                     44  reste dc.b ',',0
+00001047                            45  
+00001047                            46  
+00001047                            47  
+00001047                            48      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+RESTE               1045
+RESULT              1032
+START               1000
