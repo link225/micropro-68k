@@ -1,0 +1,150 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 12/12/2019 02:06:09
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : plus grand and plus petit 
+00000000                             3  * Written by : link 
+00000000                             4  * Date       : 12.12.2019
+00000000                             5  * Description: Le but est de retrouver le plus grand element que nous avons entrer lors du remplissage du tableau.
+00000000                             6  *               
+00000000                             7  *-----------------------------------------------------------
+00001000                             8      ORG    $1000
+00001000                             9  START:                  ; first instruction of program
+00001000                            10  
+00001000                            11  *------------ Comment le faire --------
+00001000                            12  * -> il faut un tableau deja remplis ou que vous devez remplir 
+00001000                            13  *
+00001000                            14  * ----------- fonctionnement ----------
+00001000                            15  * peut importe les variable que vous utilisez le principe est le suivant
+00001000                            16  * ===== apres avoir rempli le tableau il faut revenir au debut du tableau en pour stocker le premier element du tableau dans
+00001000                            17  *       un registre de donnee (dn), mias tout d,abord il faut dupliquer le tableau en le mettant en plus dans un autre registre de
+00001000                            18  *       d'adresse (soit move a2,a3 ). Apres cela il vous faut des label pour la comparaison et la permutation. on considere que le premier 
+00001000                            19  *       element est le plus grand et on permutte si c'est faut sinon on ne fait rien.
+00001000                            20  
+00001000                            21  
+00001000                            22  
+00001000                            23  ************* NB: Le code n'est pas optimal a vous de te perfectionner comme bon vous semble ****************************
+00001000                            24  
+00001000                            25  
+00001000                            26      ;bloc d'instruction pour le titre 
+00001000  43F9 00001146             27      lea titre,a1
+00001006  303C 000E                 28      move #14,d0
+0000100A  4E4F                      29      trap #15
+0000100C                            30      
+0000100C                            31      ; bloc pour la longueur de tableau
+0000100C  43F9 00001180             32      lea taille,a1
+00001012  303C 0012                 33      move #18,d0
+00001016  4E4F                      34      trap #15
+00001018                            35      
+00001018                            36      ; longueur dans d2
+00001018  3401                      37      move d1,d2
+0000101A                            38      
+0000101A                            39      ;branchement a init pour initialiser toutes nos variables
+0000101A  6100 000E                 40      bsr init
+0000101E                            41      
+0000101E                            42      ;branchement a remplir pour remplir le tableau
+0000101E  6100 001A                 43      bsr remplir
+00001022                            44      
+00001022                            45      ; boucle de comparaison sinon au'il n'affiche rien du tout
+00001022  6100 002C                 46      bsr afficher
+00001026                            47      
+00001026                            48  
+00001026                            49  * Put program code here
+00001026                            50  
+00001026  FFFF FFFF                 51      SIMHALT             ; halt simulator
+0000102A                            52      ; bloc d'initialisation
+0000102A                            53  init 
+0000102A  45F9 0000107E             54      lea tableau,a2
+00001030  364A                      55      move a2,a3
+00001032  363C 0001                 56      move #1,d3
+00001036  3812                      57      move (a2),d4
+00001038  4E75                      58      rts
+0000103A                            59      
+0000103A                            60      ; Bloc pour le remplissage des elements du tableau    
+0000103A                            61  remplir 
+0000103A  B443                      62      cmp d3,d2
+0000103C  65EC                      63      blo init
+0000103E                            64      
+0000103E  43F9 00001178             65      lea enter,a1
+00001044  303C 0012                 66      move #18,d0
+00001048  4E4F                      67      trap #15
+0000104A                            68  
+0000104A  36C1                      69      move d1,(a3)+
+0000104C  5243                      70      add #1,d3
+0000104E                            71      
+0000104E  60EA                      72      bra remplir
+00001050                            73      
+00001050                            74      
+00001050                            75      ;boucle de comparaison 
+00001050                            76  afficher
+00001050                            77  
+00001050  3A1B                      78      move (a3)+,d5
+00001052                            79      
+00001052  B443                      80      cmp d3,d2
+00001054                            81      
+00001054                            82      
+00001054  6500 0016                 83      blo fin
+00001058  5243                      84      add #1,d3
+0000105A                            85      
+0000105A  6200 0004                 86      bhi comparer
+0000105E                            87      
+0000105E  60F0                      88      bra afficher
+00001060                            89      
+00001060                            90      
+00001060                            91      ;condition de comparaison 
+00001060                            92  comparer
+00001060                            93      
+00001060  BA44                      94      cmp d4,d5
+00001062                            95      
+00001062  6200 0004                 96      bhi grand
+00001066                            97      
+00001066  60E8                      98      bra afficher
+00001068                            99      
+00001068                           100      
+00001068                           101      ;permutation des valeurs
+00001068                           102  grand 
+00001068  3805                     103      move d5,d4
+0000106A  60E4                     104      bra afficher
+0000106C                           105      
+0000106C                           106      ;affichage finale
+0000106C                           107  fin
+0000106C  3204                     108      move d4,d1
+0000106E  43F9 000011A1            109      lea grande,a1
+00001074  303C 0011                110      move #17,d0
+00001078  4E4F                     111      trap #15
+0000107A                           112      
+0000107A  FFFF FFFF                113      SIMHALT
+0000107E                           114  * Put variables and constants here
+0000107E                           115  tableau ds.w 100
+00001146                           116  
+00001146= 3D 3D 3D 3D 3D 3D ...    117  titre dc.b '========== Plus grand and Plus petit ==========',$a,$d,0
+00001178                           118  
+00001178= 4E 6F 74 65 20 3A ...    119  enter dc.b 'Note : ',0
+00001180= 4E 6F 6D 62 72 65 ...    120  taille dc.b 'Nombre de note :',0
+00001191                           121  
+00001191= 0A 0D 4C 61 20 6E ...    122  note dc.b $a,$d,'La note est :',0
+000011A1                           123  
+000011A1= 0A 0D 4C 61 20 70 ...    124  grande dc.b $a,$d,'La plus grande note est : ',0
+000011BE                           125      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+AFFICHER            1050
+COMPARER            1060
+ENTER               1178
+FIN                 106C
+GRAND               1068
+GRANDE              11A1
+INIT                102A
+NOTE                1191
+REMPLIR             103A
+START               1000
+TABLEAU             107E
+TAILLE              1180
+TITRE               1146
