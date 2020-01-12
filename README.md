@@ -3,8 +3,7 @@ Quelque exercie et quelque algo resolus
 
 + addition 
 + soustraction
-+ division 
-+ soustraction
++ division
 + division avec virgule
 + tableau 
 + boucle
